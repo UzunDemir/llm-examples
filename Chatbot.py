@@ -29,13 +29,14 @@ if user_input:
     st.session_state["messages"].append({"role": "user", "content": user_input})
 
     # Отправляем запрос к OpenAI
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=st.session_state["messages"],
+    response = openai.Completion.create(
+        engine="gpt-3.5-turbo",  # Убедитесь, что это правильное название модели
+        prompt=user_input,
+        max_tokens=150
     )
 
     # Получаем ответ от модели
-    assistant_reply = response['choices'][0]['message']['content']
+    assistant_reply = response['choices'][0]['text']
 
     # Добавляем ответ ассистента в сообщения
     st.session_state["messages"].append({"role": "assistant", "content": assistant_reply})
